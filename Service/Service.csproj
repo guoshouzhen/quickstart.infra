@@ -14,6 +14,7 @@
     <ProjectReference Include="..\Model\Model.csproj" />
     <ProjectReference Include="..\QuickStart.Infra.DI\QuickStart.Infra.DI.csproj" />
     <ProjectReference Include="..\QuickStart.Infra.Logging\QuickStart.Infra.Logging.csproj" />
+    <ProjectReference Include="..\QuickStart.Infra.Redis\QuickStart.Infra.Redis.csproj" />
   </ItemGroup>
 
 </Project>

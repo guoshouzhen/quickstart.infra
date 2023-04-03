@@ -1,5 +1,7 @@
 using QuickStart.Infra.DI;
 using QuickStart.Infra.Logging;
+using QuickStart.Infra.Redis;
+using QuickStartDemo;
 using Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,8 @@ builder.Host
     .UseServiceProviderFactory(new AfServiceProviderFactory());
 //Add Nlog
 builder.Services.AddNlog(builder.Configuration);
+//Add Redis
+builder.Services.AddRedis(builder.Configuration, new MyRedisPwdDecryptor());
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddService();
