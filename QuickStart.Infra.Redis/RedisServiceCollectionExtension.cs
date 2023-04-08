@@ -14,10 +14,11 @@ namespace QuickStart.Infra.Redis
             return services;
         }
 
-        public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration, IRedisPwdDecryptor redisPwdDecryptor)
+        public static IServiceCollection AddRedis<TPwdDecryptor>(this IServiceCollection services, IConfiguration configuration)
+            where TPwdDecryptor : class, IRedisPwdDecryptor
         {
             AddStackExchangeRedis(services, configuration);
-            services.AddSingleton(typeof(IRedisPwdDecryptor), redisPwdDecryptor);
+            services.AddSingleton<IRedisPwdDecryptor, TPwdDecryptor>();
             return services;
         }
 

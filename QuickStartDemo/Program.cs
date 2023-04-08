@@ -1,5 +1,6 @@
 using QuickStart.Infra.DI;
 using QuickStart.Infra.Logging;
+using QuickStart.Infra.Rabbitmq;
 using QuickStart.Infra.Redis;
 using QuickStartDemo;
 using Service;
@@ -11,7 +12,9 @@ builder.Host
 //Add Nlog
 builder.Services.AddNlog(builder.Configuration);
 //Add Redis
-builder.Services.AddRedis(builder.Configuration, new MyRedisPwdDecryptor());
+builder.Services.AddRedis<MyRedisPwdDecryptor>(builder.Configuration);
+//Add RabbitMq
+builder.Services.AddRabbitMq(builder.Configuration);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddService();

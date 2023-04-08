@@ -13,11 +13,16 @@
   <ItemGroup>
     <ProjectReference Include="..\QuickStart.Infra.DI\QuickStart.Infra.DI.csproj" />
     <ProjectReference Include="..\QuickStart.Infra.Logging\QuickStart.Infra.Logging.csproj" />
+    <ProjectReference Include="..\QuickStart.Infra.RabbitMq\QuickStart.Infra.RabbitMq.csproj" />
     <ProjectReference Include="..\Service\Service.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Configs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
   </ItemGroup>
 
 </Project>
