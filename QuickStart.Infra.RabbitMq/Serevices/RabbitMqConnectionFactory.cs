@@ -1,13 +1,15 @@
 ﻿using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using QuickStart.Infra.Rabbitmq;
 using QuickStart.Infra.Rabbitmq.ConfigOptions;
 using QuickStart.Infra.RabbitMq.ConfigOptions;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Exceptions;
 
-namespace QuickStart.Infra.RabbitMq
+namespace QuickStart.Infra.RabbitMq.Serevices
 {
+    /// <summary>
+    /// RabbitMq connection factory, should be used in singleton mode.
+    /// </summary>
     public class RabbitMqConnectionFactory : IRabbitMqConnectionFactory, IDisposable
     {
         private IConnection? _producerConn;
@@ -25,36 +27,36 @@ namespace QuickStart.Infra.RabbitMq
             _rabbitMqPwdDescryptor = rabbitMqPwdDescryptor;
         }
 
+        /// <inheritdoc/>
         public IConnection CreateOrGetProducerConnection()
         {
-            if (_rabbitMqOptions.Producer == null)
-            {
-                throw new ArgumentNullException("Producer config must be not null when create a connection use to publish msg.", nameof(_rabbitMqOptions.Producer));
-            }
             if (_producerConn == null || _producerConn.IsOpen == false)
             {
                 _logger.LogInformation("Start to create rabbitmq connection for producer...");
-                _producerConn = CreateRabbitMqConnection(_rabbitMqOptions.Producer.Servers);
+                _producerConn = CreateRabbitMqConnection(_rabbitMqOptions.Servers);
             }
-            _logger.LogInformation("Rabbitmq connection for producer successfuly cteated.");
+            _logger.LogInformation("Rabbitmq connection for producer successfuly created.");
             return _producerConn;
         }
 
+        /// <inheritdoc/>
         public IConnection CreateOrGetConsumerConnection()
         {
-            if (_rabbitMqOptions.Consumer == null)
-            {
-                throw new ArgumentNullException("Consumer config must be not null when create a connection use to consume msg.", nameof(_rabbitMqOptions.Consumer));
-            }
             if (_consumerConn == null || _consumerConn.IsOpen == false)
             {
                 _logger.LogInformation("Start to create rabbitmq connection for comsumer...");
-                _consumerConn = CreateRabbitMqConnection(_rabbitMqOptions.Consumer.Servers);
+                _consumerConn = CreateRabbitMqConnection(_rabbitMqOptions.Servers);
             }
             _logger.LogInformation("Rabbitmq connection for comsumer successfuly cteated.");
             return _consumerConn;
         }
 
+        /// <summary>
+        /// Create new connection.
+        /// </summary>
+        /// <param name="serverOptions"></param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         private IConnection CreateRabbitMqConnection(ServerOptions serverOptions)
         {
             EnsureConfigParams(serverOptions);
@@ -96,10 +98,11 @@ namespace QuickStart.Infra.RabbitMq
             connectionFactory.TopologyRecoveryEnabled = serverOptions.TopologyRecoveryEnabled;
             connectionFactory.RequestedConnectionTimeout = TimeSpan.FromSeconds(serverOptions.RequestedConnectionTimeout);
             connectionFactory.RequestedHeartbeat = TimeSpan.FromSeconds(serverOptions.RequestedHeartbeat);
+            connectionFactory.DispatchConsumersAsync = true;
 
             int attempts = 0;
             BrokerUnreachableException? latestException = null;
-            //retry if connect failed
+            //Retry if connect failed.
             while (attempts < serverOptions.InitialConnectRetries)
             {
                 try
@@ -119,6 +122,12 @@ namespace QuickStart.Infra.RabbitMq
             throw new Exception($"Connect to rabbitmq server failed, has retried: {attempts} times.", latestException);
         }
 
+        /// <summary>
+        /// Check params.
+        /// </summary>
+        /// <param name="serverOptions"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        /// <exception cref="ArgumentException"></exception>
         private void EnsureConfigParams(ServerOptions serverOptions)
         {
             if (serverOptions == null)
@@ -142,6 +151,9 @@ namespace QuickStart.Infra.RabbitMq
             }
         }
 
+        /// <summary>
+        /// Disposing connections.
+        /// </summary>
         public void Dispose()
         {
             Dispose(true);

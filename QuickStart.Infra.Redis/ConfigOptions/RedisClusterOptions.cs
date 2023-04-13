@@ -3,11 +3,11 @@
     public class RedisClusterOptions
     {
         /// <summary>
-        /// 密码
+        /// Password.
         /// </summary>
         public string Password { get; set; }
         /// <summary>
-        /// 集群节点
+        /// Redis cluster endpoints.
         /// </summary>
         public string[] EndPoints { get; set; }
     }

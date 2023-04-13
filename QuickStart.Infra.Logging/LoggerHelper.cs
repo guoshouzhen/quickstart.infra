@@ -11,6 +11,12 @@ namespace QuickStart.Infra.Logging
         private readonly LogLevel _configLevel;
         private readonly string _loggerName;
         private readonly Logger _logger;
+
+        /// <summary>
+        /// Constructor.
+        /// </summary>
+        /// <param name="traceIdOption"></param>
+        /// <param name="logOption"></param>
         public LoggerHelper(IOptionsSnapshot<TraceIdOptions> traceIdOption, IOptionsMonitor<NLogOptions> logOption)
         {
             _traceIdOptions = traceIdOption.Value;
@@ -20,31 +26,37 @@ namespace QuickStart.Infra.Logging
             _logger = LogManager.GetLogger(_loggerName);
         }
 
+        /// <inheritdoc/>
         public void DebugLog(string message, Exception exception, string folderName = "")
         {
             Log(LogLevel.Debug, message, exception, folderName);
         }
 
+        /// <inheritdoc/>
         public void DebugLog(string message, string folderName = "")
         {
             Log(LogLevel.Debug, message, null, folderName);
         }
 
+        /// <inheritdoc/>
         public void InfoLog(string message, string folderName = "")
         {
             Log(LogLevel.Info, message, null, folderName);
         }
 
+        /// <inheritdoc/>
         public void ErrorLog(string message, Exception exception, string folderName = "")
         {
             Log(LogLevel.Error, message, exception, folderName);
         }
 
+        /// <inheritdoc/>
         public void ErrorLog(string message, string folderName = "")
         {
             Log(LogLevel.Error, message, null, folderName);
         }
 
+        /// <inheritdoc/>
         public virtual void CustomizedLog(string message, string folderName)
         {
             string logName = "MyCust.UserLog";
@@ -60,6 +72,13 @@ namespace QuickStart.Infra.Logging
             cusLogger.Log(logEventInfo);
         }
 
+        /// <summary>
+        /// Record log into file.
+        /// </summary>
+        /// <param name="logLevel"></param>
+        /// <param name="message"></param>
+        /// <param name="exception"></param>
+        /// <param name="folderName"></param>
         protected virtual void Log(LogLevel logLevel, string message, Exception? exception, string folderName) 
         {
             if (logLevel < _configLevel) 

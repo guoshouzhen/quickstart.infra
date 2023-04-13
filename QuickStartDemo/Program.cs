@@ -1,8 +1,9 @@
 using QuickStart.Infra.DI;
 using QuickStart.Infra.Logging;
-using QuickStart.Infra.Rabbitmq;
+using QuickStart.Infra.RabbitMq.Extensions;
 using QuickStart.Infra.Redis;
 using QuickStartDemo;
+using QuickStartDemo.Consumers;
 using Service;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,10 @@ builder.Services.AddNlog(builder.Configuration);
 //Add Redis
 builder.Services.AddRedis<MyRedisPwdDecryptor>(builder.Configuration);
 //Add RabbitMq
-builder.Services.AddRabbitMq(builder.Configuration);
+builder.Services.AddRabbitMq(builder.Configuration)
+    .AddHostedService<ConsumerA>()
+    .AddHostedService<ConsumerB>();
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddService();

@@ -2,23 +2,26 @@
 
 namespace QuickStart.Infra.DI.Attributes
 {
+    /// <summary>
+    /// All compnents marked with this attribute will be injected into IOC container.
+    /// </summary>
     [AttributeUsage(AttributeTargets.Class)]
     public class ComponentAttribute : Attribute
     {
         /// <summary>
-        /// 组件生命周期
+        /// Conponent life cycle enum.
         /// </summary>
         public LifeCycleEnum LifeCycleEnum { get; set; } = LifeCycleEnum.InstancePerLifetimeScope;
         /// <summary>
-        /// 组件注入顺序，越小越先被注入
+        /// Injection order, component that the smaller will be injected earlier.
         /// </summary>
         public int Order { get; set; } = int.MaxValue;
         /// <summary>
-        /// 组件对外暴露的服务，以指定的服务为准，不指定则自动扫描
+        /// Exposed services by the component, if not specified, will be scanned automatically.
         /// </summary>
         public Type[]? ExposeServices { get; set; }
         /// <summary>
-        /// 是否将组件自身注册为服务
+        /// Whether to register itself as a service.
         /// </summary>
         public bool RegisterSelf { get; set; } = false;
     }

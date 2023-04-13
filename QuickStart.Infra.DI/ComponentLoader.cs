@@ -6,10 +6,13 @@ using System.Reflection;
 
 namespace QuickStart.Infra.DI
 {
+    /// <summary>
+    /// Component loader.
+    /// </summary>
     internal sealed class ComponentLoader
     {
         /// <summary>
-        /// 加载并注册组件
+        /// Scan assemblies and register all marked components.
         /// </summary>
         /// <param name="builder"></param>
         /// <param name="assemblies"></param>
@@ -35,7 +38,7 @@ namespace QuickStart.Infra.DI
         }
 
         /// <summary>
-        /// 解析要注册的组件
+        /// Get all components that need to be registered.
         /// </summary>
         /// <param name="assemblies"></param>
         /// <returns></returns>
@@ -62,16 +65,12 @@ namespace QuickStart.Infra.DI
                     {
                         continue;
                     }
-                    if (type.IsClass == false || type.IsAbstract)
+                    if (type.IsClass == false || type.IsAbstract || type.IsSubclassOf(typeof(Delegate)))
                     {
-                        throw new Exception($"以下组件不支持注入：{type.Name}，仅支持注入非抽象class类型组件");
-                    }
-                    if (type.IsSubclassOf(typeof(Delegate)))
-                    {
-                        throw new Exception($"委托类型组件不支持注入：{type.Name}，仅支持注入非抽象class类型组件");
+                        throw new Exception($"The following component type do not supported register：{type.Name}");
                     }
 
-                    //获取组件所有对外暴露服务
+                    //Get all exposed services by component.
                     Type[] exposeServices;
                     if (compomentAttr.ExposeServices != null && compomentAttr.ExposeServices.Length > 0)
                     {
@@ -96,7 +95,7 @@ namespace QuickStart.Infra.DI
         }
 
         /// <summary>
-        /// 注册泛型组件
+        /// Register generic components.
         /// </summary>
         /// <param name="component"></param>
         private static void RegisterGenericComponent(ContainerBuilder builder, ComponentDetail component)
@@ -113,7 +112,7 @@ namespace QuickStart.Infra.DI
         }
 
         /// <summary>
-        /// 注册组件
+        /// Register common components.
         /// </summary>
         /// <param name="component"></param>
         private static void RegisterComponent(ContainerBuilder builder, ComponentDetail component)

@@ -6,7 +6,7 @@ namespace QuickStart.Infra.DI
     internal static class RegistrationBuilderExtension
     {
         /// <summary>
-        /// 注册对外暴露服务
+        /// Register exposed services by component.
         /// </summary>
         /// <typeparam name="TActivatorData"></typeparam>
         /// <typeparam name="TRegistrationStyle"></typeparam>
@@ -27,7 +27,7 @@ namespace QuickStart.Infra.DI
         }
 
         /// <summary>
-        /// 配置组件生命周期
+        /// Configure component life cycle.
         /// </summary>
         /// <typeparam name="TActivatorData"></typeparam>
         /// <typeparam name="TRegistrationStyle"></typeparam>
@@ -38,15 +38,15 @@ namespace QuickStart.Infra.DI
         {
             switch (lifeCycleEnum)
             {
-                //瞬时单例
+                //Transient.
                 case LifeCycleEnum.InstancePerDependency:
                     rb.InstancePerDependency();
                     break;
-                //单例
+                //Singleton.
                 case LifeCycleEnum.SingleInstance:
                     rb.SingleInstance();
                     break;
-                //作用域单例，默认
+                //Scoped.(Default)
                 default:
                     rb.InstancePerLifetimeScope();
                     break;

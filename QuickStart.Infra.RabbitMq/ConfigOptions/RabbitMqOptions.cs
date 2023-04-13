@@ -2,15 +2,18 @@
 
 namespace QuickStart.Infra.RabbitMq.ConfigOptions
 {
+    /// <summary>
+    /// RabbitMq Options, include RabbitMq server options and Exchanges options.
+    /// </summary>
     public class RabbitMqOptions
     {
-        public ServerExchangeOptions? Producer { get; set; }
-        public ServerExchangeOptions? Consumer { get; set; }
-    }
-
-    public class ServerExchangeOptions 
-    {
-        public ServerOptions Servers { get; set; }
-        public ExchangeOptions Exchanges { get; set; }
+        /// <summary>
+        /// RabbitMq server Configuration.
+        /// </summary>
+        public ServerOptions Servers { get; set; } = new ServerOptions();
+        /// <summary>
+        /// Exchanges configuration.
+        /// </summary>
+        public List<ExchangeOptions> Exchanges { get; set; } = new List<ExchangeOptions>();
     }
 }

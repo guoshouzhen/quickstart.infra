@@ -5,7 +5,7 @@ namespace QuickStart.Infra.DI.Utils
     public class ReflectionUtil
     {
         /// <summary>
-        /// 获取类型所有的父类和实现的接口
+        /// Get all parent classes and implemented interfaces of a type.
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -26,7 +26,7 @@ namespace QuickStart.Infra.DI.Utils
         }
 
         /// <summary>
-        /// 获取类型所有的父类，object类除外
+        /// Get all parent classes of a type, except the object class.
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>
@@ -41,7 +41,7 @@ namespace QuickStart.Infra.DI.Utils
         }
 
         /// <summary>
-        /// 获取所有实现的接口
+        /// Get all implemented interfaces of a type.
         /// </summary>
         /// <param name="type"></param>
         /// <returns></returns>

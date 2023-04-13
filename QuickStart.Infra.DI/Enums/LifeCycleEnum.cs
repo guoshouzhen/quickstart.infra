@@ -3,15 +3,15 @@
     public enum LifeCycleEnum
     {
         /// <summary>
-        /// 瞬时
+        /// Transient.
         /// </summary>
         InstancePerDependency = 1,
         /// <summary>
-        /// 作用域单例
+        /// Scoped.
         /// </summary>
         InstancePerLifetimeScope = 2,
         /// <summary>
-        /// 单例
+        /// Singleton.
         /// </summary>
         SingleInstance = 3,
     }

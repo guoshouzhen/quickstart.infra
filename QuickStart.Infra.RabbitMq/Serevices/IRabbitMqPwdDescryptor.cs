@@ -1,4 +1,4 @@
-﻿namespace QuickStart.Infra.RabbitMq
+﻿namespace QuickStart.Infra.RabbitMq.Serevices
 {
     public interface IRabbitMqPwdDescryptor
     {

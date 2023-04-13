@@ -12,6 +12,12 @@ namespace QuickStart.Infra.Logging
         const string NLOG_CONFIG_SECTION_KEY = "NLogConfig";
         const string CONFIG_FILE_REL_PATH_KEY = "ConfigFileRelativePath";
 
+        /// <summary>
+        /// Add Nlog component into application.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
+        /// <returns></returns>
         public static IServiceCollection AddNlog(this IServiceCollection services, IConfiguration configuration) 
         {
             string configFilePath = configuration.GetSection(NLOG_CONFIG_SECTION_KEY)?[CONFIG_FILE_REL_PATH_KEY] ?? DEFAULT_CONFIG_FILE_NAME;
@@ -23,6 +29,12 @@ namespace QuickStart.Infra.Logging
             return services;
         }
 
+        /// <summary>
+        /// Use customized logger helper.
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static IServiceCollection UseLoggerHelper(this IServiceCollection services, Type type)
         {
             services.AddScoped(typeof(ILoggerHelper<>), type);
