@@ -32,7 +32,7 @@ namespace QuickStart.Infra.RabbitMq.Extensions
         public static IServiceCollection AddRabbitMq<TPwdDescryptor>(this IServiceCollection services, IConfiguration configuration)
             where TPwdDescryptor : class, IRabbitMqPwdDescryptor
         {
-            services.AddScoped<IRabbitMqPwdDescryptor, TPwdDescryptor>();
+            services.AddSingleton<IRabbitMqPwdDescryptor, TPwdDescryptor>();
             AddRabbitMqConfig(services, configuration);
             return services;
         }
